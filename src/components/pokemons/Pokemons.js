@@ -4,11 +4,14 @@ import Pokemon from "./Pokemon";
 
 const Pokemons = () => {
   const pokemonContext = useContext(PokemonContext);
-  const { getPokemons, pokemons } = pokemonContext;
+  const { getPokemons, pokemons, clearCurrentPokemon, currentUrl } =
+    pokemonContext;
 
   useEffect(() => {
     getPokemons();
-  }, []);
+    clearCurrentPokemon();
+  }, [currentUrl]);
+
   return (
     <Fragment>
       {pokemons.map((pokemon, index) => {

@@ -37,3 +37,16 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.name-btn {
+  border-radius: 5px;
+  background-color: lightcoral;
+  color: white;
+}
+
+.name-btn:hover {
+  /* width: 50px;
+  color: white; */
+  background-color: green;
+  cursor: pointer;
+}
