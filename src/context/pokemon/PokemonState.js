@@ -6,6 +6,8 @@ import {
   GET_POKEMONS,
   SET_CURRENT_POKEMON,
   CLEAR_CURRENT_POKEMON,
+  SET_CURRENT_URL,
+  SEARCH_POKEMONS,
 } from "../types";
 
 const PokemonState = (props) => {
@@ -54,7 +56,47 @@ const PokemonState = (props) => {
       dispatch({
         type: CLEAR_CURRENT_POKEMON,
       });
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //setCurrentURL
+  const setCurrentURL = async (type) => {
+    const res = await axios.get(state.currentUrl);
+    const data = await res.data;
+
+    const URL = type === "previous" ? data.previous : data.next;
+
+    try {
+      URL &&
+        dispatch({
+          type: SET_CURRENT_URL,
+          payload: URL,
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //searchPokemons
+  const searchPokemons = async (text) => {
+    console.log(text);
+
+    const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${text}`);
+    console.log(res.config.url);
+
+    try {
+      dispatch({
+        type: SEARCH_POKEMONS,
+        payload: {
+          name: text,
+          url: res.config.url,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -66,6 +108,8 @@ const PokemonState = (props) => {
         getPokemons,
         setCurrentPokemon,
         clearCurrentPokemon,
+        setCurrentURL,
+        searchPokemons,
       }}
     >
       {props.children}
