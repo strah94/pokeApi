@@ -12,10 +12,6 @@ const Pokemons = () => {
     clearCurrentPokemon();
   }, [currentUrl]);
 
-  useEffect(() => {
-    console.log(pokemons);
-  }, [pokemons]);
-
   return (
     <Fragment>
       {pokemons.map((pokemon, index) => {

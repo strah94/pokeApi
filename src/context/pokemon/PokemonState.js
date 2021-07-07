@@ -8,11 +8,14 @@ import {
   CLEAR_CURRENT_POKEMON,
   SET_CURRENT_URL,
   SEARCH_POKEMONS,
+  SHOW_ALL,
+  CLEAR_POKEMONS,
 } from "../types";
 
 const PokemonState = (props) => {
   const initialState = {
     pokemons: [],
+    pokemonCount: 0,
     currentUrl: "https://pokeapi.co/api/v2/pokemon",
     currentPokemon: {},
     loading: false,
@@ -24,10 +27,11 @@ const PokemonState = (props) => {
   const getPokemons = async () => {
     try {
       const res = await axios.get(state.currentUrl);
-      console.log(res.data.results);
+      console.log("rezultat pokemona");
+      console.log(res);
       dispatch({
         type: GET_POKEMONS,
-        payload: res.data.results,
+        payload: res.data,
       });
     } catch (err) {
       console.log(err);
@@ -81,10 +85,7 @@ const PokemonState = (props) => {
 
   //searchPokemons
   const searchPokemons = async (text) => {
-    console.log(text);
-
     const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${text}`);
-    console.log(res.config.url);
 
     try {
       dispatch({
@@ -99,17 +100,51 @@ const PokemonState = (props) => {
     }
   };
 
+  //showAll
+  const showAll = async () => {
+    clearPokemons();
+
+    let id = 1;
+    while (id < state.pokemonCount) {
+      const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+
+      console.log(res.data);
+
+      try {
+        dispatch({
+          type: SHOW_ALL,
+          payload: {
+            name: res.data.name,
+            url: res.config.url,
+          },
+        });
+      } catch (err) {
+        console.log(err);
+      }
+
+      id++;
+    }
+  };
+
+  const clearPokemons = () => {
+    dispatch({
+      type: CLEAR_POKEMONS,
+    });
+  };
+
   return (
     <PokemonContext.Provider
       value={{
         pokemons: state.pokemons,
         currentUrl: state.currentUrl,
         currentPokemon: state.currentPokemon,
+        pokemonCount: state.pokemonCount,
         getPokemons,
         setCurrentPokemon,
         clearCurrentPokemon,
         setCurrentURL,
         searchPokemons,
+        showAll,
       }}
     >
       {props.children}
