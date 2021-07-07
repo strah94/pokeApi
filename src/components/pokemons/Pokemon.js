@@ -7,7 +7,7 @@ const Pokemon = ({ name, url }) => {
   const [pokemonData, setPokemonData] = useState([]);
 
   const pokemonContext = useContext(PokemonContext);
-  const { setCurrentPokemon, currentPokemon } = pokemonContext;
+  const { currentPokemon, setCurrentPokemon, setCurrentType } = pokemonContext;
 
   useEffect(async () => {
     const res = await axios.get(`${url}`);
@@ -16,9 +16,10 @@ const Pokemon = ({ name, url }) => {
     setPokemonData(data);
   }, [name]);
 
-  const handleOnClick = () => {
-    console.log("handleOnClink");
-    setCurrentPokemon(name, url);
+  const handleOnClick = (e) => {
+    e.target.name === "link"
+      ? setCurrentPokemon(name, url)
+      : setCurrentType(e.target.value);
   };
 
   return (
@@ -27,12 +28,25 @@ const Pokemon = ({ name, url }) => {
         <div className="pokemon-card">
           <img src={pokemonData.sprites.front_default}></img>
           <Link
+            name="link"
             to="/pokemonCurrent"
             className="name-btn"
             onClick={handleOnClick}
           >
             {name}
           </Link>
+
+          {pokemonData.types.map((element) => {
+            return (
+              <button
+                name="type"
+                value={element.type.name}
+                onClick={handleOnClick}
+              >
+                {element.type.name}
+              </button>
+            );
+          })}
         </div>
       ) : (
         <h1>LOADING...</h1>

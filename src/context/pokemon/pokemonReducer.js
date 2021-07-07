@@ -6,6 +6,8 @@ import {
   SEARCH_POKEMONS,
   SHOW_ALL,
   CLEAR_POKEMONS,
+  SET_CURRENT_TYPE,
+  CLEAR_CURRENT_TYPE,
 } from "../types";
 
 import { setToLocalStorage } from "../../helpers/functions";
@@ -37,6 +39,10 @@ export default (state, action) => {
       return { ...state, pokemons: [action.payload] };
     case SHOW_ALL:
       return { ...state, pokemons: [...state.pokemons, action.payload] };
+    case SET_CURRENT_TYPE:
+      return { ...state, currentType: action.payload };
+    case CLEAR_CURRENT_TYPE:
+      return { ...state, currentType: "" };
     default:
       return state;
   }

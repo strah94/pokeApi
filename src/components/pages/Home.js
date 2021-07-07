@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Pokemons from "../pokemons/Pokemons";
 import PokemonContext from "../../context/pokemon/pokemonContext";
 import Search from "../pokemons/Search";
+import TypeModal from "../pokemons/TypeModal";
 
 const Home = () => {
   const pokemonContext = useContext(PokemonContext);
@@ -17,7 +18,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="home">
       <div>
         <button onClick={handleOnClick} name="previous">
           PREVIOUS
@@ -31,6 +32,7 @@ const Home = () => {
       <div className="pokemon-container">
         <Pokemons />
       </div>
+      <TypeModal />
     </div>
   );
 };

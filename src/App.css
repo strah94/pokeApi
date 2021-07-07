@@ -50,3 +50,21 @@ body {
   background-color: green;
   cursor: pointer;
 }
+
+.home {
+  position: relative;
+}
+
+.type-modal {
+  width: 500px;
+  height: 400px;
+  overflow: auto;
+  background-color: #282c34;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+}
+
+.type-modal h1 {
+  color: white;
+}

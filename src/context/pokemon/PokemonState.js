@@ -10,6 +10,8 @@ import {
   SEARCH_POKEMONS,
   SHOW_ALL,
   CLEAR_POKEMONS,
+  SET_CURRENT_TYPE,
+  CLEAR_CURRENT_TYPE,
 } from "../types";
 
 import { getFromLocalStorage } from "../../helpers/functions";
@@ -26,6 +28,7 @@ const PokemonState = (props) => {
       ? getFromLocalStorage("currentPokemon")
       : {},
     pokemonCount: 0,
+    currentType: "",
     loading: false,
   };
 
@@ -136,6 +139,23 @@ const PokemonState = (props) => {
     });
   };
 
+  //Set current type
+  const setCurrentType = (type) => {
+    console.log("Trenutni tip");
+    console.log(type);
+    dispatch({
+      type: SET_CURRENT_TYPE,
+      payload: type,
+    });
+  };
+
+  //Clear current type
+  const clearCurrentType = () => {
+    dispatch({
+      type: CLEAR_CURRENT_TYPE,
+    });
+  };
+
   return (
     <PokemonContext.Provider
       value={{
@@ -143,12 +163,15 @@ const PokemonState = (props) => {
         currentUrl: state.currentUrl,
         currentPokemon: state.currentPokemon,
         pokemonCount: state.pokemonCount,
+        currentType: state.currentType,
         getPokemons,
         setCurrentPokemon,
         clearCurrentPokemon,
         setCurrentURL,
         searchPokemons,
         showAll,
+        setCurrentType,
+        clearCurrentType,
       }}
     >
       {props.children}
