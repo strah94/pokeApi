@@ -4,7 +4,7 @@ import Pokemon from "./Pokemon";
 
 const Pokemons = () => {
   const pokemonContext = useContext(PokemonContext);
-  const { getPokemons, pokemons, clearCurrentPokemon, currentUrl } =
+  const { getPokemons, pokemons, clearCurrentPokemon, currentUrl, filtered } =
     pokemonContext;
 
   useEffect(() => {
@@ -14,9 +14,17 @@ const Pokemons = () => {
 
   return (
     <Fragment>
-      {pokemons.map((pokemon, index) => {
-        return <Pokemon name={pokemon.name} url={pokemon.url} key={index} />;
-      })}
+      {filtered.length === 0
+        ? pokemons.map((pokemon, index) => {
+            return (
+              <Pokemon name={pokemon.name} url={pokemon.url} key={index} />
+            );
+          })
+        : filtered.map((pokemon, index) => {
+            return (
+              <Pokemon name={pokemon.name} url={pokemon.url} key={index} />
+            );
+          })}
     </Fragment>
   );
 };

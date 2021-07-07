@@ -3,6 +3,7 @@ import Pokemons from "../pokemons/Pokemons";
 import PokemonContext from "../../context/pokemon/pokemonContext";
 import Search from "../pokemons/Search";
 import TypeModal from "../pokemons/TypeModal";
+import Filter from "../pokemons/Filter";
 
 const Home = () => {
   const pokemonContext = useContext(PokemonContext);
@@ -29,6 +30,7 @@ const Home = () => {
         <button onClick={handleShowAll}>SHOW ALL</button>
       </div>
       <Search />
+      <Filter />
       <div className="pokemon-container">
         <Pokemons />
       </div>

@@ -8,6 +8,9 @@ import {
   CLEAR_POKEMONS,
   SET_CURRENT_TYPE,
   CLEAR_CURRENT_TYPE,
+  SET_TYPES,
+  FILTER_POKEMONS,
+  REMOVE_FILTER,
 } from "../types";
 
 import { setToLocalStorage } from "../../helpers/functions";
@@ -40,9 +43,19 @@ export default (state, action) => {
     case SHOW_ALL:
       return { ...state, pokemons: [...state.pokemons, action.payload] };
     case SET_CURRENT_TYPE:
+      setToLocalStorage("currentType", action.payload);
       return { ...state, currentType: action.payload };
     case CLEAR_CURRENT_TYPE:
+      setToLocalStorage("currentType", "");
       return { ...state, currentType: "" };
+    case SET_TYPES:
+      return { ...state, types: action.payload };
+    case FILTER_POKEMONS:
+      setToLocalStorage("filtered", [...state.filtered, action.payload]);
+      return { ...state, filtered: [...state.filtered, action.payload] };
+    case REMOVE_FILTER:
+      setToLocalStorage("filtered", []);
+      return { ...state, filtered: [] };
     default:
       return state;
   }

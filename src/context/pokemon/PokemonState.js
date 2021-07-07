@@ -12,9 +12,12 @@ import {
   CLEAR_POKEMONS,
   SET_CURRENT_TYPE,
   CLEAR_CURRENT_TYPE,
+  SET_TYPES,
+  FILTER_POKEMONS,
+  REMOVE_FILTER,
 } from "../types";
 
-import { getFromLocalStorage } from "../../helpers/functions";
+import { getFromLocalStorage, getPokemonData } from "../../helpers/functions";
 
 const PokemonState = (props) => {
   const initialState = {
@@ -28,7 +31,13 @@ const PokemonState = (props) => {
       ? getFromLocalStorage("currentPokemon")
       : {},
     pokemonCount: 0,
-    currentType: "",
+    currentType: getFromLocalStorage("currentType")
+      ? getFromLocalStorage("currentType")
+      : "",
+    types: [],
+    filtered: getFromLocalStorage("filtered")
+      ? getFromLocalStorage("filtered")
+      : [],
     loading: false,
   };
 
@@ -132,7 +141,7 @@ const PokemonState = (props) => {
     }
   };
 
-  //Clear pokemons
+  //Clear all pokemons
   const clearPokemons = () => {
     dispatch({
       type: CLEAR_POKEMONS,
@@ -146,6 +155,47 @@ const PokemonState = (props) => {
     dispatch({
       type: SET_CURRENT_TYPE,
       payload: type,
+    });
+  };
+
+  //Set current type
+  const setTypes = async () => {
+    const res = await axios.get(`https://pokeapi.co/api/v2/type`);
+    console.log(res.data.results);
+
+    try {
+      dispatch({
+        type: SET_TYPES,
+        payload: res.data.results,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //Filter pokemons
+  const filterPokemons = async (type) => {
+    state.pokemons.forEach(async (pokemon) => {
+      const pokemonData = await getPokemonData(pokemon.url);
+
+      pokemonData.types.forEach((element) => {
+        try {
+          element.type.name === type &&
+            dispatch({
+              type: FILTER_POKEMONS,
+              payload: pokemon,
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    });
+  };
+
+  //Remove filter
+  const removeFilter = () => {
+    dispatch({
+      type: REMOVE_FILTER,
     });
   };
 
@@ -164,14 +214,19 @@ const PokemonState = (props) => {
         currentPokemon: state.currentPokemon,
         pokemonCount: state.pokemonCount,
         currentType: state.currentType,
+        types: state.types,
+        filtered: state.filtered,
         getPokemons,
         setCurrentPokemon,
         clearCurrentPokemon,
         setCurrentURL,
         searchPokemons,
         showAll,
+        setTypes,
         setCurrentType,
         clearCurrentType,
+        filterPokemons,
+        removeFilter,
       }}
     >
       {props.children}

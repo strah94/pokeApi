@@ -3,6 +3,8 @@ import axios from "axios";
 import PokemonContext from "../../context/pokemon/pokemonContext";
 import { Link } from "react-router-dom";
 
+import { getPokemonData } from "../../helpers/functions";
+
 const Pokemon = ({ name, url }) => {
   const [pokemonData, setPokemonData] = useState([]);
 
@@ -10,9 +12,9 @@ const Pokemon = ({ name, url }) => {
   const { currentPokemon, setCurrentPokemon, setCurrentType } = pokemonContext;
 
   useEffect(async () => {
-    const res = await axios.get(`${url}`);
-    const data = await res.data;
-
+    // const res = await axios.get(`${url}`);
+    // const data = await res.data;
+    const data = await getPokemonData(url);
     setPokemonData(data);
   }, [name]);
 
@@ -42,6 +44,7 @@ const Pokemon = ({ name, url }) => {
                 name="type"
                 value={element.type.name}
                 onClick={handleOnClick}
+                key={element.type.name}
               >
                 {element.type.name}
               </button>
