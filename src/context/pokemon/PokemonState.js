@@ -12,12 +12,20 @@ import {
   CLEAR_POKEMONS,
 } from "../types";
 
+import { getFromLocalStorage } from "../../helpers/functions";
+
 const PokemonState = (props) => {
   const initialState = {
-    pokemons: [],
+    pokemons: getFromLocalStorage("pokemons")
+      ? getFromLocalStorage("pokemons")
+      : [],
+    currentUrl: getFromLocalStorage("currentUrl")
+      ? getFromLocalStorage("currentUrl")
+      : "https://pokeapi.co/api/v2/pokemon",
+    currentPokemon: getFromLocalStorage("currentPokemon")
+      ? getFromLocalStorage("currentPokemon")
+      : {},
     pokemonCount: 0,
-    currentUrl: "https://pokeapi.co/api/v2/pokemon",
-    currentPokemon: {},
     loading: false,
   };
 
@@ -27,8 +35,7 @@ const PokemonState = (props) => {
   const getPokemons = async () => {
     try {
       const res = await axios.get(state.currentUrl);
-      console.log("rezultat pokemona");
-      console.log(res);
+
       dispatch({
         type: GET_POKEMONS,
         payload: res.data,
@@ -40,9 +47,7 @@ const PokemonState = (props) => {
 
   //setCurrentPokemon
   const setCurrentPokemon = async (name, url) => {
-    console.log("setCurrentPokemon");
     const res = await axios.get(url);
-    console.log(res.data);
 
     try {
       dispatch({
@@ -108,8 +113,6 @@ const PokemonState = (props) => {
     while (id < state.pokemonCount) {
       const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
 
-      console.log(res.data);
-
       try {
         dispatch({
           type: SHOW_ALL,
@@ -126,6 +129,7 @@ const PokemonState = (props) => {
     }
   };
 
+  //Clear pokemons
   const clearPokemons = () => {
     dispatch({
       type: CLEAR_POKEMONS,

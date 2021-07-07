@@ -8,9 +8,13 @@ import {
   CLEAR_POKEMONS,
 } from "../types";
 
+import { setToLocalStorage } from "../../helpers/functions";
+
 export default (state, action) => {
   switch (action.type) {
     case GET_POKEMONS:
+      setToLocalStorage("pokemons", action.payload.results);
+
       return {
         ...state,
         pokemons: action.payload.results,
@@ -18,12 +22,16 @@ export default (state, action) => {
         loading: false,
       };
     case CLEAR_POKEMONS:
+      setToLocalStorage("pokemons", []);
       return { ...state, pokemons: [] };
     case SET_CURRENT_POKEMON:
+      setToLocalStorage("currentPokemon", action.payload);
       return { ...state, currentPokemon: action.payload };
     case CLEAR_CURRENT_POKEMON:
+      setToLocalStorage("currentPokemon", {});
       return { ...state, currentPokemon: {} };
     case SET_CURRENT_URL:
+      setToLocalStorage("currentUrl", action.payload);
       return { ...state, currentUrl: action.payload };
     case SEARCH_POKEMONS:
       return { ...state, pokemons: [action.payload] };
