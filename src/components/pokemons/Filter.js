@@ -21,7 +21,7 @@ const Filter = () => {
 
   return (
     <div>
-      <select onChange={handleOnChange}>
+      <select disabled={filtered.length !== 0} onChange={handleOnChange}>
         {types.map((type, index) => {
           return (
             <option value={type.name} key={index}>

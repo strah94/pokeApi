@@ -4,6 +4,7 @@ import PokemonContext from "../../context/pokemon/pokemonContext";
 import { Link } from "react-router-dom";
 
 import { getPokemonData } from "../../helpers/functions";
+import { colors } from "../../constants/constants";
 
 const Pokemon = ({ name, url }) => {
   const [pokemonData, setPokemonData] = useState([]);
@@ -12,8 +13,6 @@ const Pokemon = ({ name, url }) => {
   const { currentPokemon, setCurrentPokemon, setCurrentType } = pokemonContext;
 
   useEffect(async () => {
-    // const res = await axios.get(`${url}`);
-    // const data = await res.data;
     const data = await getPokemonData(url);
     setPokemonData(data);
   }, [name]);
@@ -29,6 +28,7 @@ const Pokemon = ({ name, url }) => {
       {pokemonData.sprites ? (
         <div className="pokemon-card">
           <img src={pokemonData.sprites.front_default}></img>
+          <p>{`#${pokemonData.id.toString().padStart(3, "0")}`}</p>
           <Link
             name="link"
             to="/pokemonCurrent"
@@ -37,19 +37,23 @@ const Pokemon = ({ name, url }) => {
           >
             {name}
           </Link>
-
-          {pokemonData.types.map((element) => {
-            return (
-              <button
-                name="type"
-                value={element.type.name}
-                onClick={handleOnClick}
-                key={element.type.name}
-              >
-                {element.type.name}
-              </button>
-            );
-          })}
+          <div className="pokemon-type">
+            {pokemonData.types.map((element) => {
+              return (
+                <button
+                  name="type"
+                  value={element.type.name}
+                  onClick={handleOnClick}
+                  key={element.type.name}
+                  style={{
+                    backgroundColor: `${colors[`${element.type.name}`]}`,
+                  }}
+                >
+                  {element.type.name}
+                </button>
+              );
+            })}
+          </div>
         </div>
       ) : (
         <h1>LOADING...</h1>

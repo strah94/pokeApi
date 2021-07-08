@@ -34,10 +34,10 @@ const PokemonState = (props) => {
     currentType: getFromLocalStorage("currentType")
       ? getFromLocalStorage("currentType")
       : "",
-    types: [],
     filtered: getFromLocalStorage("filtered")
       ? getFromLocalStorage("filtered")
       : [],
+    types: [],
     loading: false,
   };
 
@@ -158,7 +158,7 @@ const PokemonState = (props) => {
     });
   };
 
-  //Set current type
+  //Set all types
   const setTypes = async () => {
     const res = await axios.get(`https://pokeapi.co/api/v2/type`);
     console.log(res.data.results);
