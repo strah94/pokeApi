@@ -14,6 +14,7 @@ import {
   SET_MODAL_COORDINATES,
   CLEAR_MODAL_COORDINATES,
   SET_LOADING,
+  SET_NO_RESULTS,
 } from "../types";
 
 import { setToLocalStorage } from "../../helpers/functions";
@@ -27,6 +28,7 @@ export default (state, action) => {
         pokemons: action.payload.results,
         pokemonCount: action.payload.count,
         loading: false,
+        noResults: false,
       };
 
     case CLEAR_POKEMONS:
@@ -90,6 +92,9 @@ export default (state, action) => {
 
     case SET_LOADING:
       return { ...state, loading: true };
+
+    case SET_NO_RESULTS:
+      return { ...state, noResults: true };
 
     default:
       return state;

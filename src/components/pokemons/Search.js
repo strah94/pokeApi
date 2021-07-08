@@ -3,7 +3,7 @@ import PokemonContext from "../../context/pokemon/pokemonContext";
 
 const Search = () => {
   const pokemonContext = useContext(PokemonContext);
-  const { searchPokemons, pokemons, getPokemons } = pokemonContext;
+  const { searchPokemons, pokemons, getPokemons, noResults } = pokemonContext;
 
   const [text, setText] = useState("");
   const [disabled, setDisabled] = useState(false);
@@ -42,7 +42,13 @@ const Search = () => {
           disabled={disabled}
         />
       </form>
+
       {pokemons.length == 1 && (
+        <button className="cancel-btn" onClick={handleOnClick}>
+          X
+        </button>
+      )}
+      {noResults && (
         <button className="cancel-btn" onClick={handleOnClick}>
           X
         </button>

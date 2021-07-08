@@ -8,7 +8,7 @@ export const getFromLocalStorage = (name) => {
   if (data) return JSON.parse(data);
 };
 
-export const getPokemonData = async (url) => {
+export const getAsyncData = async (url) => {
   const res = await axios.get(`${url}`);
   const data = await res.data;
 

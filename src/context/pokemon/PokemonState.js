@@ -18,9 +18,10 @@ import {
   SET_MODAL_COORDINATES,
   CLEAR_MODAL_COORDINATES,
   SET_LOADING,
+  SET_NO_RESULTS,
 } from "../types";
 
-import { getFromLocalStorage, getPokemonData } from "../../helpers/functions";
+import { getFromLocalStorage, getAsyncData } from "../../helpers/functions";
 
 const PokemonState = (props) => {
   const initialState = {
@@ -45,6 +46,7 @@ const PokemonState = (props) => {
       : {},
     types: [],
     loading: false,
+    noResults: false,
   };
 
   const [state, dispatch] = useReducer(pokemonReducer, initialState);
@@ -119,6 +121,10 @@ const PokemonState = (props) => {
         },
       });
     } catch (err) {
+      dispatch({
+        type: SET_NO_RESULTS,
+      });
+
       alert("Nema pokemona sa tim imenom");
       console.log("searchPokemons error");
       console.log(err);
@@ -146,7 +152,6 @@ const PokemonState = (props) => {
         console.log("showAll error");
         console.log(err);
       }
-
       id++;
     }
   };
@@ -157,7 +162,6 @@ const PokemonState = (props) => {
 
     try {
       const res = await axios.get(`https://pokeapi.co/api/v2/type`);
-      console.log(res.data.results);
 
       dispatch({
         type: SET_TYPES,
@@ -172,15 +176,20 @@ const PokemonState = (props) => {
   //Filter pokemons
   const filterPokemons = async (type) => {
     state.pokemons.forEach(async (pokemon) => {
-      const pokemonData = await getPokemonData(pokemon.url);
+      try {
+        const pokemonData = await getAsyncData(pokemon.url);
 
-      pokemonData.types.forEach((element) => {
-        element.type.name === type &&
-          dispatch({
-            type: FILTER_POKEMONS,
-            payload: pokemon,
-          });
-      });
+        pokemonData.types.forEach((element) => {
+          element.type.name === type &&
+            dispatch({
+              type: FILTER_POKEMONS,
+              payload: pokemon,
+            });
+        });
+      } catch (err) {
+        console.log("Filter error");
+        console.log(err);
+      }
     });
   };
 
@@ -236,7 +245,6 @@ const PokemonState = (props) => {
   };
 
   //Set Loading
-
   const setLoading = () => dispatch({ type: SET_LOADING });
 
   return (
@@ -250,6 +258,7 @@ const PokemonState = (props) => {
         types: state.types,
         filtered: state.filtered,
         coordinates: state.coordinates,
+        noResults: state.noResults,
         getPokemons,
         setCurrentPokemon,
         clearCurrentPokemon,

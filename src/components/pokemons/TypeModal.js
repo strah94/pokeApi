@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect, Fragment } from "react";
-import axios from "axios";
 import PokemonContext from "../../context/pokemon/pokemonContext";
 import Pokemon from "../pokemons/Pokemon";
-import { setModalLocation } from "../../helpers/functions";
+import { setModalLocation, getAsyncData } from "../../helpers/functions";
 
 const TypeModal = () => {
   const pokemonContext = useContext(PokemonContext);
@@ -11,20 +10,17 @@ const TypeModal = () => {
 
   const [typePokemons, setTypePokemons] = useState([]);
 
-  useEffect(async () => {
-    if (currentType) {
-      const res = await axios.get(
-        `https://pokeapi.co/api/v2/type/${currentType}`
-      );
-      const data = await res.data;
-
-      setTypePokemons(data);
-    }
-  }, [currentType]);
-
   useEffect(() => {
-    setModalLocation(coordinates.x, coordinates.y);
-  }, [coordinates]);
+    coordinates && setModalLocation(coordinates.x, coordinates.y);
+  }, []);
+
+  useEffect(async () => {
+    const data =
+      currentType &&
+      (await getAsyncData(`https://pokeapi.co/api/v2/type/${currentType}`));
+
+    setTypePokemons(data);
+  }, [currentType]);
 
   const handleOnClick = () => {
     clearCurrentType();
@@ -38,7 +34,7 @@ const TypeModal = () => {
         id="type-modal"
         className={currentType ? "type-modal active" : "type-modal"}
       >
-        {typePokemons.pokemon && (
+        {typePokemons.pokemon && coordinates && (
           <div className="flex-column flex-center">
             <h1>{currentType}</h1>
             <button className="cancel-btn" onClick={handleOnClick}>

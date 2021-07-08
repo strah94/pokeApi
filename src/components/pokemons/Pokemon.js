@@ -3,7 +3,7 @@ import axios from "axios";
 import PokemonContext from "../../context/pokemon/pokemonContext";
 import Loading from "../layout/Loading";
 import { Link } from "react-router-dom";
-import { getPokemonData, setModalLocation } from "../../helpers/functions";
+import { getAsyncData, setModalLocation } from "../../helpers/functions";
 import { colors } from "../../constants/constants";
 
 const Pokemon = ({ name, url }) => {
@@ -14,7 +14,7 @@ const Pokemon = ({ name, url }) => {
     pokemonContext;
 
   useEffect(async () => {
-    const data = await getPokemonData(url);
+    const data = await getAsyncData(url);
     setPokemonData(data);
   }, [name]);
 
@@ -24,6 +24,7 @@ const Pokemon = ({ name, url }) => {
       : setCurrentType(e.target.value);
 
     e.target.name !== "link" && setModalCoordinates(e.pageX, e.pageY);
+    e.target.name !== "link" && setModalLocation(e.pageX, e.pageY);
   };
 
   return (

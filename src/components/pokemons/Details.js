@@ -3,7 +3,7 @@ import Detail from "./Detail";
 
 const Details = ({ title, detailArray, detailName, detailStat }) => {
   return (
-    <div className="flex">
+    <div className="details-container">
       <h1 className="details" style={{ backgroundColor: "#282c34" }}>
         {title.toUpperCase()}:
       </h1>

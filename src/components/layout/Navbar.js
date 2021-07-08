@@ -12,6 +12,7 @@ const Navbar = () => {
   const handleShowAll = (e) => {
     showAll();
   };
+
   return (
     <div className="navbar">
       <button
