@@ -21,13 +21,15 @@ const Filter = () => {
 
   return (
     <div className="filter-container">
-      <h2 style={{ color: "white" }}>Filter by type</h2>
       <div style={{ display: "flex" }}>
         <select
           disabled={filtered.length !== 0}
           onChange={handleOnChange}
           className="filter-select"
         >
+          <option value="" disabled selected hidden>
+            Filter by type
+          </option>
           {types.map((type, index) => {
             return (
               <option value={type.name} key={index}>

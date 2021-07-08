@@ -9,7 +9,7 @@ const Pokemons = () => {
 
   useEffect(() => {
     getPokemons();
-    clearCurrentPokemon();
+    // clearCurrentPokemon();
   }, [currentUrl]);
 
   return (

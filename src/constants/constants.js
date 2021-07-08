@@ -6,7 +6,7 @@ export const colors = {
   ghost: "#7b62a3",
   ground: "#f7de3f",
   normal: "#a4acaf",
-  pyschic: "#404040",
+  psychic: "#404040",
   steel: "#B2B4B5",
   dark: "#707070",
   electric: "#eed535",
