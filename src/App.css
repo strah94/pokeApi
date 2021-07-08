@@ -78,13 +78,24 @@ body {
 }
 
 .type-modal {
-  width: 500px;
+  display: none;
+  width: 400px;
   height: 400px;
   overflow: auto;
   background-color: #282c34;
   position: absolute;
-  top: 40%;
-  left: 40%;
+  /* top: 40%;
+  left: 40%; */
+}
+.active {
+  display: block;
+  /* width: 500px;
+  height: 400px;
+  overflow: auto;
+  background-color: #282c34;
+  position: absolute; */
+  /* top: 40%;
+  left: 40%; */
 }
 
 .type-modal h1 {

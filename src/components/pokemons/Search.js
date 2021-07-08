@@ -6,6 +6,7 @@ const Search = () => {
   const { searchPokemons, pokemons, getPokemons } = pokemonContext;
 
   const [text, setText] = useState("");
+  const [disabled, setDisabled] = useState(false);
 
   const onChange = (e) => {
     setText(e.target.value);
@@ -17,9 +18,15 @@ const Search = () => {
     if (text === "") {
       alert("Please Enter Something");
     } else {
+      setDisabled(true);
       searchPokemons(text);
-      setText("");
     }
+  };
+
+  const handleOnClick = (e) => {
+    setText("");
+    setDisabled(false);
+    getPokemons();
   };
 
   return (
@@ -32,10 +39,11 @@ const Search = () => {
           value={text}
           onChange={onChange}
           className="form-input"
+          disabled={disabled}
         />
       </form>
       {pokemons.length == 1 && (
-        <button className="cancel-btn" onClick={getPokemons}>
+        <button className="cancel-btn" onClick={handleOnClick}>
           X
         </button>
       )}

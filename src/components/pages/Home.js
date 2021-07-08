@@ -11,6 +11,7 @@ const Home = () => {
     <div className="home">
       <Header />
       <Navbar />
+
       <div className="search-filter-container">
         <Search />
         <Filter />

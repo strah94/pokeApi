@@ -2,8 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import PokemonContext from "../../context/pokemon/pokemonContext";
 import { Link } from "react-router-dom";
-
-import { getPokemonData } from "../../helpers/functions";
+import { getPokemonData, setModalLocation } from "../../helpers/functions";
 import { colors } from "../../constants/constants";
 
 const Pokemon = ({ name, url }) => {
@@ -21,6 +20,8 @@ const Pokemon = ({ name, url }) => {
     e.target.name === "link"
       ? setCurrentPokemon(name, url)
       : setCurrentType(e.target.value);
+
+    e.target.name !== "link" && setModalLocation(e.pageX, e.pageY);
   };
 
   return (

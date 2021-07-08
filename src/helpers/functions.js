@@ -14,3 +14,11 @@ export const getPokemonData = async (url) => {
 
   if (data) return data;
 };
+
+export const setModalLocation = (x, y) => {
+  const modal = document.getElementById("type-modal");
+  if (modal) {
+    modal.style.left = `${x}px`;
+    modal.style.top = `${y}px`;
+  }
+};

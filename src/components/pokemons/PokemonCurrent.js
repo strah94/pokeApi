@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import PokemonContext from "../../context/pokemon/pokemonContext";
 import Pokemon from "./Pokemon";
 import Details from "./Details";
-import Galery from "./Galery";
 import Slider from "./Slider";
 import TypeModal from "./TypeModal";
 

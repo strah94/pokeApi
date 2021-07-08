@@ -27,23 +27,29 @@ const TypeModal = () => {
 
   return (
     <Fragment>
-      {currentType && typePokemons.pokemon && (
-        <div className="type-modal">
-          <h1>{currentType}</h1>
-          <button onClick={handleOnClick}>CLOSE</button>
-          <div>
-            {typePokemons.pokemon.map((element, index) => {
-              return (
-                <Pokemon
-                  name={element.pokemon.name}
-                  url={element.pokemon.url}
-                  key={index}
-                />
-              );
-            })}
+      <div
+        id="type-modal"
+        className={currentType ? "type-modal active" : "type-modal"}
+      >
+        {" "}
+        {typePokemons.pokemon && (
+          <div className="flex-column flex-center">
+            <h1>{currentType}</h1>
+            <button onClick={handleOnClick}>CLOSE</button>
+            <div>
+              {typePokemons.pokemon.map((element, index) => {
+                return (
+                  <Pokemon
+                    name={element.pokemon.name}
+                    url={element.pokemon.url}
+                    key={index}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </Fragment>
   );
 };
