@@ -23,19 +23,20 @@ const Search = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit} className="form">
+    <div className="form-container">
+      <form onSubmit={onSubmit}>
         <input
           type="text"
           name="text"
           placeholder="Search Pokemons..."
           value={text}
           onChange={onChange}
+          className="form-input"
         />
       </form>
       {pokemons.length == 1 && (
         <button className="cancel-btn" onClick={getPokemons}>
-          Clear Search
+          X
         </button>
       )}
     </div>

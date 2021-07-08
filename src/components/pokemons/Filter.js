@@ -20,21 +20,28 @@ const Filter = () => {
   };
 
   return (
-    <div>
-      <select disabled={filtered.length !== 0} onChange={handleOnChange}>
-        {types.map((type, index) => {
-          return (
-            <option value={type.name} key={index}>
-              {type.name}
-            </option>
-          );
-        })}
-      </select>
-      {filtered.length !== 0 && (
-        <button className="cancel-btn" onClick={handleOnClick}>
-          REMOVE FILTER
-        </button>
-      )}
+    <div className="filter-container">
+      <h2 style={{ color: "white" }}>Filter by type</h2>
+      <div style={{ display: "flex" }}>
+        <select
+          disabled={filtered.length !== 0}
+          onChange={handleOnChange}
+          className="filter-select"
+        >
+          {types.map((type, index) => {
+            return (
+              <option value={type.name} key={index}>
+                {type.name}
+              </option>
+            );
+          })}
+        </select>
+        {filtered.length !== 0 && (
+          <button className="cancel-btn" onClick={handleOnClick}>
+            X
+          </button>
+        )}
+      </div>
     </div>
   );
 };

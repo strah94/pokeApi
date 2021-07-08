@@ -11,8 +11,10 @@ const Home = () => {
     <div className="home">
       <Header />
       <Navbar />
-      <Search />
-      <Filter />
+      <div className="search-filter-container">
+        <Search />
+        <Filter />
+      </div>
       <div className="pokemon-container">
         <Pokemons />
       </div>
