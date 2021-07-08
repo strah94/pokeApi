@@ -11,6 +11,8 @@ import {
   SET_TYPES,
   FILTER_POKEMONS,
   REMOVE_FILTER,
+  SET_MODAL_COORDINATES,
+  CLEAR_MODAL_COORDINATES,
 } from "../types";
 
 import { setToLocalStorage } from "../../helpers/functions";
@@ -56,6 +58,21 @@ export default (state, action) => {
     case REMOVE_FILTER:
       setToLocalStorage("filtered", []);
       return { ...state, filtered: [] };
+    case SET_MODAL_COORDINATES:
+      setToLocalStorage("coordinates", {
+        x: action.payload.x,
+        y: action.payload.y,
+      });
+      return {
+        ...state,
+        coordinates: { x: action.payload.x, y: action.payload.y },
+      };
+    case CLEAR_MODAL_COORDINATES:
+      setToLocalStorage("coordinates", {});
+      return {
+        ...state,
+        coordinates: {},
+      };
     default:
       return state;
   }

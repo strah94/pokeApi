@@ -2,10 +2,12 @@ import React, { useContext, useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import PokemonContext from "../../context/pokemon/pokemonContext";
 import Pokemon from "../pokemons/Pokemon";
+import { setModalLocation } from "../../helpers/functions";
 
 const TypeModal = () => {
   const pokemonContext = useContext(PokemonContext);
-  const { currentType, clearCurrentType } = pokemonContext;
+  const { currentType, clearCurrentType, coordinates, clearModalCoordinates } =
+    pokemonContext;
 
   const [typePokemons, setTypePokemons] = useState([]);
 
@@ -20,8 +22,13 @@ const TypeModal = () => {
     }
   }, [currentType]);
 
+  useEffect(() => {
+    setModalLocation(coordinates.x, coordinates.y);
+  }, [coordinates]);
+
   const handleOnClick = () => {
     clearCurrentType();
+    clearModalCoordinates();
     setTypePokemons([]);
   };
 
@@ -31,11 +38,12 @@ const TypeModal = () => {
         id="type-modal"
         className={currentType ? "type-modal active" : "type-modal"}
       >
-        {" "}
         {typePokemons.pokemon && (
           <div className="flex-column flex-center">
             <h1>{currentType}</h1>
-            <button onClick={handleOnClick}>CLOSE</button>
+            <button className="cancel-btn" onClick={handleOnClick}>
+              X
+            </button>
             <div>
               {typePokemons.pokemon.map((element, index) => {
                 return (

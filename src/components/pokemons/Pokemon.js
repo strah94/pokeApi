@@ -9,7 +9,12 @@ const Pokemon = ({ name, url }) => {
   const [pokemonData, setPokemonData] = useState([]);
 
   const pokemonContext = useContext(PokemonContext);
-  const { currentPokemon, setCurrentPokemon, setCurrentType } = pokemonContext;
+  const {
+    currentPokemon,
+    setCurrentPokemon,
+    setCurrentType,
+    setModalCoordinates,
+  } = pokemonContext;
 
   useEffect(async () => {
     const data = await getPokemonData(url);
@@ -21,7 +26,8 @@ const Pokemon = ({ name, url }) => {
       ? setCurrentPokemon(name, url)
       : setCurrentType(e.target.value);
 
-    e.target.name !== "link" && setModalLocation(e.pageX, e.pageY);
+    // e.target.name !== "link" && setModalLocation(e.pageX, e.pageY);
+    setModalCoordinates(e.pageX, e.pageY);
   };
 
   return (

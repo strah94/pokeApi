@@ -82,8 +82,16 @@ body {
   width: 400px;
   height: 400px;
   overflow: auto;
-  background-color: #282c34;
+  background-image: linear-gradient(
+    to right,
+    #25aae1,
+    #4481eb,
+    #04befe,
+    #3f86ed
+  );
   position: absolute;
+  opacity: 0;
+  transition-duration: 1s ease;
   /* top: 40%;
   left: 40%; */
 }
@@ -96,6 +104,9 @@ body {
   position: absolute; */
   /* top: 40%;
   left: 40%; */
+  border: 2px solid white;
+  border-radius: 5px;
+  opacity: 1;
 }
 
 .type-modal h1 {

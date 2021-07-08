@@ -15,6 +15,8 @@ import {
   SET_TYPES,
   FILTER_POKEMONS,
   REMOVE_FILTER,
+  SET_MODAL_COORDINATES,
+  CLEAR_MODAL_COORDINATES,
 } from "../types";
 
 import { getFromLocalStorage, getPokemonData } from "../../helpers/functions";
@@ -37,6 +39,9 @@ const PokemonState = (props) => {
     filtered: getFromLocalStorage("filtered")
       ? getFromLocalStorage("filtered")
       : [],
+    coordinates: getFromLocalStorage("coordinates")
+      ? getFromLocalStorage("coordinates")
+      : {},
     types: [],
     loading: false,
   };
@@ -206,6 +211,21 @@ const PokemonState = (props) => {
     });
   };
 
+  //Set modal coordinates
+  const setModalCoordinates = (x, y) => {
+    dispatch({
+      type: SET_MODAL_COORDINATES,
+      payload: { x, y },
+    });
+  };
+
+  //clear modal coordinates
+  const clearModalCoordinates = (x, y) => {
+    dispatch({
+      type: CLEAR_MODAL_COORDINATES,
+    });
+  };
+
   return (
     <PokemonContext.Provider
       value={{
@@ -216,6 +236,7 @@ const PokemonState = (props) => {
         currentType: state.currentType,
         types: state.types,
         filtered: state.filtered,
+        coordinates: state.coordinates,
         getPokemons,
         setCurrentPokemon,
         clearCurrentPokemon,
@@ -227,6 +248,8 @@ const PokemonState = (props) => {
         clearCurrentType,
         filterPokemons,
         removeFilter,
+        setModalCoordinates,
+        clearModalCoordinates,
       }}
     >
       {props.children}
