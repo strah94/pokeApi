@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import PokemonContext from "../../context/pokemon/pokemonContext";
+import Loading from "../layout/Loading";
 import { Link } from "react-router-dom";
 import { getPokemonData, setModalLocation } from "../../helpers/functions";
 import { colors } from "../../constants/constants";
@@ -9,12 +10,8 @@ const Pokemon = ({ name, url }) => {
   const [pokemonData, setPokemonData] = useState([]);
 
   const pokemonContext = useContext(PokemonContext);
-  const {
-    currentPokemon,
-    setCurrentPokemon,
-    setCurrentType,
-    setModalCoordinates,
-  } = pokemonContext;
+  const { setCurrentPokemon, setCurrentType, setModalCoordinates, loading } =
+    pokemonContext;
 
   useEffect(async () => {
     const data = await getPokemonData(url);
@@ -26,13 +23,12 @@ const Pokemon = ({ name, url }) => {
       ? setCurrentPokemon(name, url)
       : setCurrentType(e.target.value);
 
-    // e.target.name !== "link" && setModalLocation(e.pageX, e.pageY);
-    setModalCoordinates(e.pageX, e.pageY);
+    e.target.name !== "link" && setModalCoordinates(e.pageX, e.pageY);
   };
 
   return (
     <div>
-      {pokemonData.sprites ? (
+      {pokemonData.sprites && !loading ? (
         <div className="pokemon-card">
           <img src={pokemonData.sprites.front_default}></img>
           <p>{`#${pokemonData.id.toString().padStart(3, "0")}`}</p>
@@ -63,7 +59,7 @@ const Pokemon = ({ name, url }) => {
           </div>
         </div>
       ) : (
-        <h1>LOADING...</h1>
+        <Loading />
       )}
     </div>
   );

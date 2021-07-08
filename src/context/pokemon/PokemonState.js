@@ -17,6 +17,7 @@ import {
   REMOVE_FILTER,
   SET_MODAL_COORDINATES,
   CLEAR_MODAL_COORDINATES,
+  SET_LOADING,
 } from "../types";
 
 import { getFromLocalStorage, getPokemonData } from "../../helpers/functions";
@@ -50,6 +51,8 @@ const PokemonState = (props) => {
 
   //Get Pokemons
   const getPokemons = async () => {
+    setLoading();
+
     try {
       const res = await axios.get(state.currentUrl);
 
@@ -58,58 +61,56 @@ const PokemonState = (props) => {
         payload: res.data,
       });
     } catch (err) {
+      console.log("getPokemons error");
       console.log(err);
     }
   };
 
   //setCurrentPokemon
   const setCurrentPokemon = async (name, url) => {
-    const res = await axios.get(url);
+    setLoading();
 
     try {
+      const res = await axios.get(url);
+
       dispatch({
         type: SET_CURRENT_POKEMON,
         payload: res.data,
       });
     } catch (err) {
-      console.log(err);
-    }
-  };
-
-  //clearCurrentPokemon
-  const clearCurrentPokemon = () => {
-    try {
-      dispatch({
-        type: CLEAR_CURRENT_POKEMON,
-      });
-    } catch (err) {
+      console.log("setCurrentPokemon error");
       console.log(err);
     }
   };
 
   //setCurrentURL
   const setCurrentURL = async (type) => {
-    const res = await axios.get(state.currentUrl);
-    const data = await res.data;
-
-    const URL = type === "previous" ? data.previous : data.next;
+    setLoading();
 
     try {
+      const res = await axios.get(state.currentUrl);
+      const data = await res.data;
+
+      const URL = type === "previous" ? data.previous : data.next;
+
       URL &&
         dispatch({
           type: SET_CURRENT_URL,
           payload: URL,
         });
     } catch (err) {
+      console.log("setCurrentUrl error");
       console.log(err);
     }
   };
 
   //searchPokemons
   const searchPokemons = async (text) => {
-    const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${text}`);
+    setLoading();
 
     try {
+      const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${text}`);
+
       dispatch({
         type: SEARCH_POKEMONS,
         payload: {
@@ -118,6 +119,8 @@ const PokemonState = (props) => {
         },
       });
     } catch (err) {
+      alert("Nema pokemona sa tim imenom");
+      console.log("searchPokemons error");
       console.log(err);
     }
   };
@@ -125,12 +128,13 @@ const PokemonState = (props) => {
   //showAll
   const showAll = async () => {
     clearPokemons();
+    setLoading();
 
     let id = 1;
     while (id < state.pokemonCount) {
-      const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
-
       try {
+        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+
         dispatch({
           type: SHOW_ALL,
           payload: {
@@ -139,6 +143,7 @@ const PokemonState = (props) => {
           },
         });
       } catch (err) {
+        console.log("showAll error");
         console.log(err);
       }
 
@@ -146,34 +151,20 @@ const PokemonState = (props) => {
     }
   };
 
-  //Clear all pokemons
-  const clearPokemons = () => {
-    dispatch({
-      type: CLEAR_POKEMONS,
-    });
-  };
-
-  //Set current type
-  const setCurrentType = (type) => {
-    console.log("Trenutni tip");
-    console.log(type);
-    dispatch({
-      type: SET_CURRENT_TYPE,
-      payload: type,
-    });
-  };
-
   //Set all types
   const setTypes = async () => {
-    const res = await axios.get(`https://pokeapi.co/api/v2/type`);
-    console.log(res.data.results);
+    setLoading();
 
     try {
+      const res = await axios.get(`https://pokeapi.co/api/v2/type`);
+      console.log(res.data.results);
+
       dispatch({
         type: SET_TYPES,
         payload: res.data.results,
       });
     } catch (err) {
+      console.log("setTypes error");
       console.log(err);
     }
   };
@@ -184,16 +175,42 @@ const PokemonState = (props) => {
       const pokemonData = await getPokemonData(pokemon.url);
 
       pokemonData.types.forEach((element) => {
-        try {
-          element.type.name === type &&
-            dispatch({
-              type: FILTER_POKEMONS,
-              payload: pokemon,
-            });
-        } catch (err) {
-          console.log(err);
-        }
+        element.type.name === type &&
+          dispatch({
+            type: FILTER_POKEMONS,
+            payload: pokemon,
+          });
       });
+    });
+  };
+
+  //Set current type
+  const setCurrentType = (type) => {
+    dispatch({
+      type: SET_CURRENT_TYPE,
+      payload: type,
+    });
+  };
+
+  //Set modal coordinates
+  const setModalCoordinates = (x, y) => {
+    dispatch({
+      type: SET_MODAL_COORDINATES,
+      payload: { x, y },
+    });
+  };
+
+  //Clear all pokemons
+  const clearPokemons = () => {
+    dispatch({
+      type: CLEAR_POKEMONS,
+    });
+  };
+
+  //clearCurrentPokemon
+  const clearCurrentPokemon = () => {
+    dispatch({
+      type: CLEAR_CURRENT_POKEMON,
     });
   };
 
@@ -211,20 +228,16 @@ const PokemonState = (props) => {
     });
   };
 
-  //Set modal coordinates
-  const setModalCoordinates = (x, y) => {
-    dispatch({
-      type: SET_MODAL_COORDINATES,
-      payload: { x, y },
-    });
-  };
-
   //clear modal coordinates
   const clearModalCoordinates = (x, y) => {
     dispatch({
       type: CLEAR_MODAL_COORDINATES,
     });
   };
+
+  //Set Loading
+
+  const setLoading = () => dispatch({ type: SET_LOADING });
 
   return (
     <PokemonContext.Provider
@@ -250,6 +263,7 @@ const PokemonState = (props) => {
         removeFilter,
         setModalCoordinates,
         clearModalCoordinates,
+        setLoading,
       }}
     >
       {props.children}

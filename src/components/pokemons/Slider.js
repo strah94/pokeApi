@@ -22,7 +22,7 @@ const Slider = ({ images }) => {
           if (index <= 4)
             return (
               <div
-                className={index === current ? "slide active" : "slide"}
+                className={index === current ? "slide active-slide" : "slide"}
                 key={index}
               >
                 {index === current && (
