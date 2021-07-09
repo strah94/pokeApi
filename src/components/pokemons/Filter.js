@@ -26,8 +26,9 @@ const Filter = () => {
           disabled={filtered.length !== 0}
           onChange={handleOnChange}
           className="filter-select"
+          defaultValue=""
         >
-          <option value="" disabled selected hidden>
+          <option value="" disabled>
             Filter by type
           </option>
           {types.map((type, index) => {
