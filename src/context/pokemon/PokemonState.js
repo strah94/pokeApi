@@ -51,7 +51,9 @@ const PokemonState = (props) => {
 
   const [state, dispatch] = useReducer(pokemonReducer, initialState);
 
-  //Get Pokemons
+  /**
+   * @description Getting all pokemons
+   */
   const getPokemons = async () => {
     setLoading();
 
@@ -68,7 +70,9 @@ const PokemonState = (props) => {
     }
   };
 
-  //setCurrentPokemon
+  /**
+   * @description Setting current pokemon for /currentPokemon page
+   */
   const setCurrentPokemon = async (name, url) => {
     setLoading();
 
@@ -85,7 +89,10 @@ const PokemonState = (props) => {
     }
   };
 
-  //setCurrentURL
+  /**
+   * @description Setting current url depending on prev or next buttons
+   * @param {String} type
+   */
   const setCurrentURL = async (type) => {
     setLoading();
 
@@ -106,7 +113,10 @@ const PokemonState = (props) => {
     }
   };
 
-  //searchPokemons
+  /**
+   * @description Function for searching pokemons
+   * @param {String} text
+   */
   const searchPokemons = async (text) => {
     setLoading();
 
@@ -131,7 +141,9 @@ const PokemonState = (props) => {
     }
   };
 
-  //showAll
+  /**
+   * @description Showing all pokemons when showAll btn is clicked
+   */
   const showAll = async () => {
     clearPokemons();
     setLoading();
@@ -156,7 +168,9 @@ const PokemonState = (props) => {
     }
   };
 
-  //Set all types
+  /**
+   * @description Setting types for Filter component
+   */
   const setTypes = async () => {
     setLoading();
 
@@ -173,7 +187,10 @@ const PokemonState = (props) => {
     }
   };
 
-  //Filter pokemons
+  /**
+   * @description Filtering pokemons function
+   * @param {String} type
+   */
   const filterPokemons = async (type) => {
     state.pokemons.forEach(async (pokemon) => {
       try {
@@ -193,7 +210,10 @@ const PokemonState = (props) => {
     });
   };
 
-  //Set current type
+  /**
+   * @description Setting current type for  modal
+   * @param {String} type
+   */
   const setCurrentType = (type) => {
     dispatch({
       type: SET_CURRENT_TYPE,
@@ -201,7 +221,9 @@ const PokemonState = (props) => {
     });
   };
 
-  //Set modal coordinates
+  /**
+   * @description Setting coordinates for modal position
+   */
   const setModalCoordinates = (x, y) => {
     dispatch({
       type: SET_MODAL_COORDINATES,
@@ -209,42 +231,54 @@ const PokemonState = (props) => {
     });
   };
 
-  //Clear all pokemons
+  /**
+   * @description Clearing all pokemons
+   */
   const clearPokemons = () => {
     dispatch({
       type: CLEAR_POKEMONS,
     });
   };
 
-  //clearCurrentPokemon
+  /**
+   * @description Clearing current pokemon
+   */
   const clearCurrentPokemon = () => {
     dispatch({
       type: CLEAR_CURRENT_POKEMON,
     });
   };
 
-  //Remove filter
+  /**
+   * @description Removing filtered pokemons
+   */
   const removeFilter = () => {
     dispatch({
       type: REMOVE_FILTER,
     });
   };
 
-  //Clear current type
+  /**
+   * @description Clearing current active type
+   */
   const clearCurrentType = () => {
     dispatch({
       type: CLEAR_CURRENT_TYPE,
     });
   };
 
-  //clear modal coordinates
+  /**
+   * @description Clearing modal coordinates
+   */
   const clearModalCoordinates = (x, y) => {
     dispatch({
       type: CLEAR_MODAL_COORDINATES,
     });
   };
 
-  //Set Loading
+  /**
+   * @description Setting loading:true
+   */
   const setLoading = () => dispatch({ type: SET_LOADING });
 
   return (
